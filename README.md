@@ -6,23 +6,36 @@ The IvyBot is a modular robot made up of several components, including an IvyBot
 
 ### Components
 
-- **IvyBot Body**
-  - **Description**: The main body of the IvyBot.
-  - **File**: `IvyBot Body.SLDPRT`
-
-- **IvyBot Bottom**
+- **IvyBot Bottom w/ Servo Holder**
   - **Description**: The bottom assembly of the IvyBot, which includes the IvyBot Bottom panel and four servo holders.
-  - **File**: `IvyBot Bottom.SLDPRT`
-  - **STL File**: `IvyBot Bottom with holder - IvyBot Bottom-1.STL`
-
-- **Servo Holder**
-  - **Description**: Holders designed to mount servos securely to the IvyBot Bottom. Four servo holders are used in this assembly.
-  - **File**: `Servo Holder.SLDPRT`
-  - **STL Files**:
+  - **SolidWorks Assembly File**: `IvyBot Bottom with holder.SLDPRT.SLDASM`
+  - **STL Files for Complete Assembly**: 
+    - `IvyBot Bottom with holder - IvyBot Bottom-1.STL`
     - `IvyBot Bottom with holder - Servo Holder-2.STL`
     - `IvyBot Bottom with holder - Servo Holder-4.STL`
     - `IvyBot Bottom with holder - Servo Holder-5.STL`
     - `IvyBot Bottom with holder - Servo Holder-6.STL`
+  
+  - **IvyBot Bottom**
+    - **Description**: The panel that forms the base of the IvyBot's bottom assembly.
+    - **SolidWorks File**: `IvyBot Bottom.SLDPRT`
+    - **STL File**: `IvyBot Bottom.STL`
+  
+  - **Servo Holder**
+    - **Description**: Holders designed to mount servos securely to the IvyBot Bottom. Four servo holders are used in this assembly.
+    - **SolidWorks File**: `Servo Holder.SLDPRT`
+    - **STL File**: `Servo Holder.STL`
+
+The `IvyBot Bottom with holder.SLDPRT.SLDASM` assembly file provides a complete assembled view of the IvyBot Bottom with the Servo Holders.
+
+The STL files listed below should be imported all together into the slicer to ensure they are printed correctly in their assembled positions:
+- `IvyBot Bottom with holder - IvyBot Bottom-1.STL`
+- `IvyBot Bottom with holder - Servo Holder-2.STL`
+- `IvyBot Bottom with holder - Servo Holder-4.STL`
+- `IvyBot Bottom with holder - Servo Holder-5.STL`
+- `IvyBot Bottom with holder - Servo Holder-6.STL`
+
+Importing all the STL files together into the slicer will ensure that the parts are printed in their correct relative positions, ensuring proper assembly and fit.
 
 ### Electronics
 
@@ -34,29 +47,41 @@ The IvyBot is a modular robot made up of several components, including an IvyBot
   - [Product Link](https://www.adafruit.com/product/3093)
   - [Overview](https://learn.adafruit.com/adafruit-crickit-creative-robotic-interactive-construction-kit/overview)
 
+- **3 x AA Battery Holder with 2.1mm Plug**
+  - [Product Link](https://www.adafruit.com/product/3842)
+
 ## Folder Structure
 
-- `STL/`
-  - `IvyBot Bottom with holder - IvyBot Bottom-1.STL`
-  - `IvyBot Bottom with holder - Servo Holder-2.STL`
-  - `IvyBot Bottom with holder - Servo Holder-4.STL`
-  - `IvyBot Bottom with holder - Servo Holder-5.STL`
-  - `IvyBot Bottom with holder - Servo Holder-6.STL`
-  
-- `SolidWorks/`
-  - `IvyBot Bottom with holder.SLDPRT`
-  - `IvyBot Bottom.SLDPRT`
-  - `Servo Holder.SLDPRT`
-  - `IvyBot Body.SLDPRT`
+- `Code`
+- `Model`
+  - `Body`
+    - `IvyBot Body.STL`
+    - `IvyBot Body.SLDPRT`
+  - `Bottom`
+    - `SolidWorks`
+      - `Assembly`
+      - `Individual`
+    - `STL`
+      - `IvyBot Bottom with holder - IvyBot Bottom-1.STL`
+      - `IvyBot Bottom with holder - Servo Holder-2.STL`
+      - `IvyBot Bottom with holder - Servo Holder-4.STL`
+      - `IvyBot Bottom with holder - Servo Holder-5.STL`
+      - `IvyBot Bottom with holder - Servo Holder-6.STL`
+
+- `Release`
 
 ## Assembly Instructions
 
-1. **Prepare the IvyBot Body**: Print the IvyBot Body using the STL file provided.
-2. **Prepare the IvyBot Bottom**: Print the IvyBot Bottom using the STL file `IvyBot Bottom with holder - IvyBot Bottom-1.STL`.
-3. **Prepare the Servo Holders**: Print four Servo Holders using the STL files provided.
-4. **Assemble the Servo Holders to the IvyBot Bottom**: Attach the four Servo Holders to the IvyBot Bottom panel as per the design in the SolidWorks assembly file `IvyBot Bottom with holder.SLDPRT`.
-5. **Combine the IvyBot Body and Bottom**: Attach the IvyBot Body to the assembled IvyBot Bottom.
-6. **Mount the Electronics**: Install the Circuit Playground Express and Adafruit CRICKIT on the IvyBot Body as per the product guidelines.
+1. **Prepare the Circuit Playground Express & Adafruit CRICKIT for Circuit Playground Express**
+   - Connect them using screws, ensuring a secure connection.
+2. **Print Body & Bottom**
+   - Print the IvyBot Body and Bottom using the provided STL files.
+3. **Assemble the Servo Holders**
+   - Insert the servos into the servo holders.
+4. **Connect the Servos to CRICKIT**
+   - Connect the servos to the CRICKIT servo ports as indicated on the bottom.
+5. **Programming**
+   - Program the IvyBot using MakeCode.
 
 ## Programming the IvyBot
 
