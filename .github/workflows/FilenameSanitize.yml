@@ -1,23 +1,27 @@
 name: Filename Sanitize (auto-fix)
+
 on:
   push:
-    branches: [ "**" ]
+    branches: ["**"]
   workflow_dispatch:
 
 permissions:
-  contents: write  # needed to push rename commit
+  contents: write
 
 jobs:
   sanitize:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Sanitize filenames (Python)
+        shell: bash
         run: |
-          python3 - << 'PY'
+          set -euo pipefail
+          python3 - <<'PY'
 import os, re, subprocess, sys, unicodedata
 
 # Policy: replace spaces with '-', strip trailing dots/spaces, remove <>:"/\|?*,
@@ -26,18 +30,12 @@ RESERVED = re.compile(r'^(?i:(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9]))$')
 ILLEGAL = re.compile(r'[<>:"/\\|?*]')
 
 def sanitize_component(c):
-    # Normalize unicode to NFC (helps cross-platform consistency)
     c = unicodedata.normalize('NFC', c)
-    # Replace spaces with hyphen (tweak to your style)
     c = c.replace(' ', '-')
-    # Remove illegal chars
     c = ILLEGAL.sub('', c)
-    # Trim trailing dots/spaces
     c = c.rstrip(' .')
-    # Avoid empty names (e.g., all removed)
     if c == '':
         c = '_'
-    # Avoid reserved names
     if RESERVED.match(c):
         c = c + '_'
     return c
@@ -47,34 +45,31 @@ def sanitize_path(p):
     new_parts = [sanitize_component(pc) for pc in parts]
     return '/'.join(new_parts)
 
-# Collect tracked files
 out = subprocess.check_output(['git', 'ls-files', '-z'])
-files = out.decode('utf-8').split('\x00')
-files = [f for f in files if f]
+files = [f for f in out.decode('utf-8').split('\x00') if f]
 
-# Build rename map and avoid collisions
 taken = set(files)
+taken_lower = {x.lower() for x in taken}
 renames = {}
+
 for f in files:
     nf = sanitize_path(f)
     if nf == f:
         continue
     base_nf = nf
     i = 1
-    # Ensure target path unique (case-insensitive safety)
-    while nf in taken or nf.lower() in {x.lower() for x in taken}:
+    while nf in taken or nf.lower() in taken_lower:
         root, ext = os.path.splitext(base_nf)
         nf = f"{root}-{i}{ext}"
         i += 1
     renames[f] = nf
     taken.add(nf)
+    taken_lower.add(nf.lower())
 
-# Execute git mv(s)
 if not renames:
     print("No filenames needed changes.")
     sys.exit(0)
 
-# Ensure directories exist before git mv
 for src, dst in renames.items():
     ddir = os.path.dirname(dst)
     if ddir and not os.path.exists(ddir):
@@ -84,7 +79,6 @@ for src, dst in renames.items():
 print("Renamed files:")
 for src, dst in renames.items():
     print(f"  {src} -> {dst}")
-
 PY
 
       - name: Commit & push if changes
