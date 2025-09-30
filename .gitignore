@@ -1,1 +1,10 @@
 .DS_Store
+.DS_Store
+.DS_Store
+.gitignore
+Code/.DS_Store
+Model/.DS_Store
+Model/Body/.DS_Store
+Model/Bottom/.DS_Store
+Model/Bottom/Print/.DS_Store
+*.DS_Store
